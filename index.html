@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Savoy Hotel Mamaia</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #1b3a5c;
+      --navy-light: #254d73;
+      --gold: #c9a84c;
+      --gold-light: #d4b85e;
+      --sand: #f5f0e8;
+      --sand-dark: #e8e0d0;
+      --sand-darker: #d4cbbe;
+      --white: #ffffff;
+      --text: #1e2a36;
+      --text-light: #6b7a8a;
+      --text-muted: #9aa5b0;
+    }
+
+    body {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      background: var(--sand);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 0 16px 40px;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      padding: 28px 0 20px;
+      border-bottom: 1px solid var(--sand-dark);
+      margin-bottom: 24px;
+    }
+
+    .header .logo {
+      width: 140px;
+      margin-bottom: 20px;
+    }
+
+    .header h1 {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 8px;
+      letter-spacing: -0.2px;
+    }
+
+    .header p {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 14px;
+      color: var(--text-light);
+    }
+
+    .header .subtext {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Sections */
+    .section {
+      margin-top: 28px;
+    }
+
+    .section-title {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .section-subtitle {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    /* Pair cards */
+    .pair {
+      margin-bottom: 16px;
+    }
+
+    .pair-label {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 11px;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .pair-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .pair-btn {
+      display: block;
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid var(--sand-dark);
+      border-radius: 10px;
+      background: var(--white);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text);
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .pair-btn:hover {
+      border-color: var(--gold);
+    }
+
+    .pair-btn.selected {
+      border-color: var(--navy);
+      background: #eef2f7;
+      font-weight: 500;
+    }
+
+    /* Multi-select checkboxes */
+    .multi-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      border: 2px solid var(--sand-dark);
+      border-radius: 10px;
+      background: var(--white);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .multi-option:hover {
+      border-color: var(--gold);
+    }
+
+    .multi-option.checked {
+      border-color: var(--navy);
+      background: #eef2f7;
+    }
+
+    .multi-option input[type="checkbox"] {
+      display: none;
+    }
+
+    .checkmark {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--sand-darker);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+      transition: all 0.2s ease;
+    }
+
+    .multi-option.checked .checkmark {
+      background: var(--navy);
+      border-color: var(--navy);
+    }
+
+    .checkmark svg {
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .multi-option.checked .checkmark svg {
+      opacity: 1;
+    }
+
+    .multi-label {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text);
+    }
+
+    /* Text input */
+    .text-input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid var(--sand-dark);
+      border-radius: 10px;
+      background: var(--white);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .text-input:focus {
+      border-color: var(--navy);
+    }
+
+    .text-input::placeholder {
+      color: var(--sand-darker);
+    }
+
+    /* Submit */
+    .submit-btn {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      margin-top: 28px;
+      background: var(--navy);
+      color: var(--white);
+      border: none;
+      border-radius: 10px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      letter-spacing: 0.3px;
+    }
+
+    .submit-btn:hover {
+      background: var(--navy-light);
+    }
+
+    .submit-btn:disabled {
+      background: var(--sand-darker);
+      cursor: not-allowed;
+    }
+
+    /* Thank you */
+    .thank-you {
+      display: none;
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    .thank-you .logo {
+      width: 120px;
+      margin-bottom: 20px;
+    }
+
+    .thank-you h2 {
+      font-family: 'Georgia', serif;
+      font-size: 24px;
+      color: var(--navy);
+      margin-bottom: 12px;
+      font-weight: 400;
+    }
+
+    .thank-you p {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 15px;
+      color: var(--text-light);
+    }
+
+    .thank-you .closing {
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      font-size: 14px;
+      color: var(--gold);
+      margin-top: 20px;
+    }
+
+    /* Progress */
+    .progress {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 20px;
+    }
+
+    .progress-dot {
+      flex: 1;
+      height: 3px;
+      border-radius: 2px;
+      background: var(--sand-dark);
+      transition: background 0.3s;
+    }
+
+    .progress-dot.active {
+      background: var(--gold);
+    }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: var(--sand-dark);
+      margin: 28px 0;
+    }
+
+    /* Gold accent line */
+    .gold-line {
+      width: 40px;
+      height: 2px;
+      background: var(--gold);
+      margin: 0 auto 24px;
+    }
+
+    /* Validation hint */
+    .hint {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 13px;
+      color: #c44;
+      margin-top: 8px;
+      display: none;
+    }
+
+    .hint.visible {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="form-container">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="gold-line"></div>
+    <h1>Ajută-ne să fim mai buni.</h1>
+    <p>Alege ce simți că sună ca Savoy-ul tău.</p>
+    <p class="subtext">Durează 2 minute. Fără date personale.</p>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress">
+    <div class="progress-dot active" id="prog-1"></div>
+    <div class="progress-dot" id="prog-2"></div>
+    <div class="progress-dot" id="prog-3"></div>
+    <div class="progress-dot" id="prog-4"></div>
+  </div>
+
+  <!-- SECTIUNEA 1: Perechi fortate -->
+  <div class="section" id="sect-1">
+    <div class="section-title">Ce sună mai mult ca Savoy-ul tău?</div>
+    <div class="section-subtitle">Alege o variantă din fiecare pereche.</div>
+
+    <div class="pair" data-pair="1">
+      <div class="pair-label">1 din 7</div>
+      <div class="pair-options">
+        <button class="pair-btn" data-value="A" onclick="selectPair(this)">Hotel cu tradiție pe litoralul românesc, cu servicii de calitate</button>
+        <button class="pair-btn" data-value="B" onclick="selectPair(this)">Locul în care venim în fiecare an. Ne simțim ca acasă.</button>
+      </div>
+    </div>
+
+    <div class="pair" data-pair="2">
+      <div class="pair-label">2 din 7</div>
+      <div class="pair-options">
+        <button class="pair-btn" data-value="A" onclick="selectPair(this)">All Inclusive complet: mâncare, băutură, plajă, piscină, totul inclus</button>
+        <button class="pair-btn" data-value="B" onclick="selectPair(this)">Cobori la mic dejun. Ieși pe plajă. Nu te gândești la nimic. Asta e.</button>
+      </div>
+    </div>
+
+    <div class="pair" data-pair="3">
+      <div class="pair-label">3 din 7</div>
+      <div class="pair-options">
+        <button class="pair-btn" data-value="A" onclick="selectPair(this)">Cel mai bun all inclusive pentru familii cu copii de pe litoral</button>
+        <button class="pair-btn" data-value="B" onclick="selectPair(this)">Copiii noștri ne trag de mână să revenim în fiecare an</button>
+      </div>
+    </div>
+
+    <div class="pair" data-pair="4">
+      <div class="pair-label">4 din 7</div>
+      <div class="pair-options">
+        <button class="pair-btn" data-value="A" onclick="selectPair(this)">Vacanță premium cu facilități complete pe plaja Mării Negre</button>
+        <button class="pair-btn" data-value="B" onclick="selectPair(this)">Nisip cald, Domnul Girafă, copilul adormit bronzat în mașină la întoarcere</button>
+      </div>
+    </div>
+
+    <div class="pair" data-pair="5">
+      <div class="pair-label">5 din 7</div>
+      <div class="pair-options">
+        <button class="pair-btn" data-value="A" onclick="selectPair(this)">Investim în experiența oaspeților noștri de peste 40 de ani</button>
+        <button class="pair-btn" data-value="B" onclick="selectPair(this)">Vii prima dată ca turist. Revii ca parte din familie.</button>
+      </div>
+    </div>
+
+    <div class="pair" data-pair="6">
+      <div class="pair-label">6 din 7</div>
+      <div class="pair-options">
+        <button class="pair-btn" data-value="A" onclick="selectPair(this)">Relaxare garantată și servicii de calitate pentru toată familia</button>
+        <button class="pair-btn" data-value="B" onclick="selectPair(this)">Prima vacanță în care chiar m-am odihnit. N-am organizat nimic.</button>
+      </div>
+    </div>
+
+    <div class="pair" data-pair="7">
+      <div class="pair-label">7 din 7</div>
+      <div class="pair-options">
+        <button class="pair-btn" data-value="A" onclick="selectPair(this)">O destinație de vacanță completă, cu standarde de 4 stele</button>
+        <button class="pair-btn" data-value="B" onclick="selectPair(this)">Adi de la plajă ne știe pe nume. Sica ne lipsește. Revenim oricum.</button>
+      </div>
+    </div>
+
+    <div class="hint" id="hint-1">Te rugăm să alegi câte o variantă pentru fiecare pereche.</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTIUNEA 2: Multi-select -->
+  <div class="section" id="sect-2">
+    <div class="section-title">Ce ai spune unui prieten care te întreabă "Cum e la Savoy?"</div>
+    <div class="section-subtitle">Bifează oricâte se potrivesc.</div>
+
+    <label class="multi-option" onclick="toggleMulti(this)">
+      <input type="checkbox" value="Mergi si nu te mai gandi la nimic">
+      <span class="checkmark"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="multi-label">Mergi și nu te mai gândi la nimic</span>
+    </label>
+
+    <label class="multi-option" onclick="toggleMulti(this)">
+      <input type="checkbox" value="E scump, dar chiar primesti ce platesti">
+      <span class="checkmark"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="multi-label">E scump, dar chiar primești ce plătești</span>
+    </label>
+
+    <label class="multi-option" onclick="toggleMulti(this)">
+      <input type="checkbox" value="Copiii mei de-abia asteapta sa revenim">
+      <span class="checkmark"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="multi-label">Copiii mei de-abia așteaptă să revenim</span>
+    </label>
+
+    <label class="multi-option" onclick="toggleMulti(this)">
+      <input type="checkbox" value="Personalul te stie pe nume din al doilea an">
+      <span class="checkmark"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="multi-label">Personalul te știe pe nume din al doilea an</span>
+    </label>
+
+    <label class="multi-option" onclick="toggleMulti(this)">
+      <input type="checkbox" value="N-am gatit, n-am spalat, n-am organizat nimic 7 zile">
+      <span class="checkmark"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="multi-label">N-am gătit, n-am spălat, n-am organizat nimic 7 zile</span>
+    </label>
+
+    <label class="multi-option" onclick="toggleMulti(this)">
+      <input type="checkbox" value="Plaja e la 20 de pasi din camera, nu exagerez">
+      <span class="checkmark"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="multi-label">Plaja e la 20 de pași din cameră, nu exagerez</span>
+    </label>
+
+    <label class="multi-option" onclick="toggleMulti(this)">
+      <input type="checkbox" value="E singurul loc de pe litoral unde m-am simtit ca acasa">
+      <span class="checkmark"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="multi-label">E singurul loc de pe litoral unde m-am simțit ca acasă</span>
+    </label>
+
+    <label class="multi-option" onclick="toggleMulti(this)">
+      <input type="checkbox" value="Mancarea e chiar buna, nu e all inclusive de forma">
+      <span class="checkmark"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="multi-label">Mâncarea e chiar bună, nu e all inclusive de formă</span>
+    </label>
+
+    <label class="multi-option" onclick="toggleMulti(this)">
+      <input type="checkbox" value="Am incercat si altele. Ne-am intors.">
+      <span class="checkmark"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="multi-label">Am încercat și altele. Ne-am întors.</span>
+    </label>
+
+    <label class="multi-option" onclick="toggleMulti(this)">
+      <input type="checkbox" value="Cainele nostru a fost binevenit, asta conteaza enorm">
+      <span class="checkmark"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="multi-label">Câinele nostru a fost binevenit, asta contează enorm</span>
+    </label>
+
+    <label class="multi-option" onclick="toggleMulti(this)">
+      <input type="checkbox" value="Nu e perfect, dar e al nostru">
+      <span class="checkmark"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="multi-label">Nu e perfect, dar e al nostru</span>
+    </label>
+
+    <label class="multi-option" onclick="toggleMulti(this)">
+      <input type="checkbox" value="Copiii au crescut aici, si-au facut prieteni aici">
+      <span class="checkmark"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="multi-label">Copiii au crescut aici, și-au făcut prieteni aici</span>
+    </label>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTIUNEA 3: Ce NU e Savoy -->
+  <div class="section" id="sect-3">
+    <div class="section-title">Ce NU sună ca Savoy-ul tău?</div>
+    <div class="section-subtitle">Bifează ce simți că NU se potrivește.</div>
+
+    <label class="multi-option" onclick="toggleMulti(this)">
+      <input type="checkbox" value="Experiente exclusive de lux la malul marii">
+      <span class="checkmark"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="multi-label">Experiențe exclusive de lux la malul mării</span>
+    </label>
+
+    <label class="multi-option" onclick="toggleMulti(this)">
+      <input type="checkbox" value="Evadeaza din cotidian intr-un univers al relaxarii">
+      <span class="checkmark"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="multi-label">Evadează din cotidian într-un univers al relaxării</span>
+    </label>
+
+    <label class="multi-option" onclick="toggleMulti(this)">
+      <input type="checkbox" value="Destinatia numarul 1 pentru vacante pe litoral">
+      <span class="checkmark"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="multi-label">Destinația numărul 1 pentru vacanțe pe litoral</span>
+    </label>
+
+    <label class="multi-option" onclick="toggleMulti(this)">
+      <input type="checkbox" value="Resort premium cu standarde internationale">
+      <span class="checkmark"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="multi-label">Resort premium cu standarde internaționale</span>
+    </label>
+
+    <label class="multi-option" onclick="toggleMulti(this)">
+      <input type="checkbox" value="Descopera un nou mod de a trai vara">
+      <span class="checkmark"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="multi-label">Descoperă un nou mod de a trăi vara</span>
+    </label>
+
+    <label class="multi-option" onclick="toggleMulti(this)">
+      <input type="checkbox" value="Oferim momente de neuitat pentru familia ta">
+      <span class="checkmark"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="multi-label">Oferim momente de neuitat pentru familia ta</span>
+    </label>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTIUNEA 4: Camp liber -->
+  <div class="section" id="sect-4">
+    <div class="section-title">Ultima întrebare</div>
+    <div class="section-subtitle">Dacă un prieten te-ar întreba "cum e la Savoy?", ce i-ai răspunde în maxim 10 cuvinte?</div>
+    <input type="text" class="text-input" id="camp-liber" placeholder="Scrie aici..." maxlength="100">
+  </div>
+
+  <!-- Submit -->
+  <button class="submit-btn" id="submit-btn" onclick="submitForm()">Trimite răspunsurile</button>
+  <div class="hint" id="hint-submit">Te rugăm să completezi toate cele 7 perechi din prima secțiune.</div>
+</div>
+
+<!-- Thank you screen -->
+<div class="thank-you" id="thank-you">
+  <h2>Mulțumim!</h2>
+  <p>Răspunsurile tale ne ajută să fim mai buni pentru tine.</p>
+  <p class="closing">Ne vedem la mare.</p>
+</div>
+
+<script>
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyuEvnxYLCps0n4dpstc71uMerHLQQAjbGnP09wrSWq0B7tDURM2fqnv25pj0Y710N-2w/exec';
+
+  const pairs = {};
+
+  function selectPair(btn) {
+    const pair = btn.closest('.pair');
+    const pairNum = pair.dataset.pair;
+    pair.querySelectorAll('.pair-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    pairs[pairNum] = btn.dataset.value;
+    updateProgress();
+  }
+
+  function toggleMulti(label) {
+    const cb = label.querySelector('input[type="checkbox"]');
+    cb.checked = !cb.checked;
+    label.classList.toggle('checked', cb.checked);
+  }
+
+  function updateProgress() {
+    const pairCount = Object.keys(pairs).length;
+    document.getElementById('prog-1').classList.toggle('active', pairCount >= 1);
+    document.getElementById('prog-2').classList.toggle('active', pairCount >= 3);
+    document.getElementById('prog-3').classList.toggle('active', pairCount >= 5);
+    document.getElementById('prog-4').classList.toggle('active', pairCount >= 7);
+  }
+
+  function submitForm() {
+    if (Object.keys(pairs).length < 7) {
+      document.getElementById('hint-submit').classList.add('visible');
+      document.getElementById('hint-1').classList.add('visible');
+      return;
+    }
+
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Se trimite\u2026';
+
+    const multiChecked = [];
+    document.querySelectorAll('#sect-2 input[type="checkbox"]:checked').forEach(cb => {
+      multiChecked.push(cb.value);
+    });
+
+    const nuSavoy = [];
+    document.querySelectorAll('#sect-3 input[type="checkbox"]:checked').forEach(cb => {
+      nuSavoy.push(cb.value);
+    });
+
+    const totalB = Object.values(pairs).filter(v => v === 'B').length;
+
+    const data = {
+      pereche_1: pairs['1'] || '',
+      pereche_2: pairs['2'] || '',
+      pereche_3: pairs['3'] || '',
+      pereche_4: pairs['4'] || '',
+      pereche_5: pairs['5'] || '',
+      pereche_6: pairs['6'] || '',
+      pereche_7: pairs['7'] || '',
+      total_b: totalB,
+      multi: multiChecked,
+      multi_count: multiChecked.length,
+      nu_savoy: nuSavoy,
+      nu_count: nuSavoy.length,
+      camp_liber: document.getElementById('camp-liber').value.trim()
+    };
+
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(() => {
+      document.getElementById('form-container').style.display = 'none';
+      document.getElementById('thank-you').style.display = 'block';
+    })
+    .catch(() => {
+      document.getElementById('form-container').style.display = 'none';
+      document.getElementById('thank-you').style.display = 'block';
+    });
+  }
+</script>
+
+</body>
+</html>
